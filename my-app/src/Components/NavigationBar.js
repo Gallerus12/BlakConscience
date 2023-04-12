@@ -102,12 +102,6 @@ import {
                 {aboutLink.map((link) => (
                   <Link as={Link} to='/About' key={link}>{link}</Link>
                 ))}
-                {registerLink.map((link) => (
-                  <Link as={Link} to='/Register' key={link}>{link}</Link>
-                ))}
-                {loginLink.map((link) => (
-                  <Link as={Link} to='/Login' key={link}>{link}</Link>
-                ))}
               </Stack>
             </Box>
           ) : null}
