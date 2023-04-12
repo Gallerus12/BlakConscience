@@ -1,72 +1,83 @@
-import Image from 'next/image';
-import {
-  Box,
-  Center,
-  Heading,
-  Text,
-  Stack,
-  Avatar,
-  useColorModeValue,
-} from '@chakra-ui/react';
+import { Box, Container, Heading, Image, Text, Link, useColorModeValue} from '@chakra-ui/react'
+import {formatISO9075} from 'date-fns';
+import { NavLink } from 'react-router-dom'
 
-export default function BlogPosts() {
-  return (
-    <Center py={6}>
+
+
+
+export default function BlogPosts({_id, title, summary, author, createdAt, cover, tag}) {
+
+    
+    return(
+      <>
+      <Container p="5"   maxW={'100%'}>
+   
       <Box
-        maxW={'445px'}
-        w={'full'}
-        bg={useColorModeValue('white', 'gray.900')}
-        boxShadow={'2xl'}
-        rounded={'md'}
-        p={6}
-        overflow={'hidden'}>
+      
+        marginTop={{ base: '1', sm: '5' }}
+        display="flex"
+        flexDirection={{ base: 'column', sm: 'row' }}
+        justifyContent="space-between">
         <Box
-          h={'210px'}
-          bg={'gray.100'}
-          mt={-6}
-          mx={-6}
-          mb={6}
-          pos={'relative'}>
-          <Image
-            src={
-              'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
-            }
-            layout={'fill'}
-          />
+        
+          display="flex"
+          flex="1"
+          marginRight="3"
+          position="relative"
+          alignItems="center">
+          <Box
+          
+            w={'sm'}
+            maxW={'sm'}
+            zIndex="2"
+            marginLeft={{ base: '0', sm: '5%' }}
+            marginTop="5%">
+            <Link textDecoration="none" _hover={{ textDecoration: 'none' }}>
+              <Image
+                borderRadius="md"
+                src={'http://localhost:4000/' + cover}
+                alt="some good alt text"
+                objectFit="contain"
+              />
+            </Link>
+          </Box>
+          <Box zIndex="1" w="100%" position="absolute" height="100%">
+            <Box
+              bgGradient={useColorModeValue(
+                'radial(orange.600 1px, transparent 1px)',
+                'radial(orange.300 1px, transparent 1px)'
+              )}
+              backgroundSize="20px 20px"
+              opacity="0.4"
+              height="100%"
+            />
+          </Box>
         </Box>
-        <Stack>
-          <Text
-            color={'green.500'}
-            textTransform={'uppercase'}
-            fontWeight={800}
-            fontSize={'sm'}
-            letterSpacing={1.1}>
-            Blog
-          </Text>
-          <Heading
-            color={useColorModeValue('gray.700', 'white')}
-            fontSize={'2xl'}
-            fontFamily={'body'}>
-            Boost your conversion rate
+        <Box
+          w={'inherit'}
+          display="flex"
+          flex="1"
+          flexDirection="column"
+          justifyContent="center"
+          marginTop={{ base: '3', sm: '0' }}>
+          <Heading marginTop="1">
+            <Link as={NavLink} to={`/post/${_id}`} textDecoration="none" _hover={{ textDecoration: 'none' }}>
+              {title}
+            </Link>
           </Heading>
-          <Text color={'gray.500'}>
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-            erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
-            et ea rebum.
+          <Text color={'grey'} as={'i'}> {tag} </Text>
+          <Text
+            noOfLines={4}
+            as="p"
+            marginTop="2"
+            color={useColorModeValue('gray.700', 'gray.200')}
+            fontSize="lg">
+              {summary}
           </Text>
-        </Stack>
-        <Stack mt={6} direction={'row'} spacing={4} align={'center'}>
-          <Avatar
-            src={'https://avatars0.githubusercontent.com/u/1164541?v=4'}
-            alt={'Author'}
-          />
-          <Stack direction={'column'} spacing={0} fontSize={'sm'}>
-            <Text fontWeight={600}>Achim Rolle</Text>
-            <Text color={'gray.500'}>Feb 08, 2021 · 6min read</Text>
-          </Stack>
-        </Stack>
+          <Text as={'b'} fontSize={'xs'}> {author} </Text>
+        </Box>
       </Box>
-    </Center>
-  );
+      </Container>
+      </>
+    )
 }

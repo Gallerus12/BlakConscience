@@ -1,4 +1,3 @@
-
 import {
     Box,
     Flex,
@@ -8,49 +7,33 @@ import {
     useColorModeValue,
     Stack,
   } from '@chakra-ui/react';
-  import { Link } from 'react-router-dom';
-  import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
-  import { ColorModeSwitcher } from '../ColorModeSwitcher';
-  import { useEffect } from 'react';
-  import { UserContext } from '../UserContext';
-  import { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
+import { ColorModeSwitcher } from '../ColorModeSwitcher';
+import LoginButton from './LoginButton';
+import LogoutButton from './LogoutButton';
+import Profile from './Profile';
+import { useAuth0 } from '@auth0/auth0-react';
   
-  const loginLink = ['Login']
   const subLink = ['Subscribe']
-  const tagLink = ['Tags']
-  const aboutLink = ['About']
-  const registerLink = ['Register']
-  const logoutLink = ['Logout']
+  const searchLink = ['Search']
   
   export default function Simple() {
     const { isOpen, onOpen, onClose } = useDisclosure();
-
-    const {setUserInfo,userInfo} = useContext(UserContext);
-    useEffect(() => {
-      fetch('http://localhost:4000/profile', {
-        credentials: 'include',
-      }).then(response => {
-        response.json().then(userInfo => {
-          setUserInfo(userInfo);
-        });
-      });
-    }, []);
-
-    function logout() {
-      fetch('http://localhost:4000/logout', {
-        credentials: 'include',
-        method: 'POST',
-      });
-      setUserInfo(null);
-    }
-
-    const username = userInfo?.username
-  
+    const bg = useColorModeValue('WhiteAplha 900', 'BlackAlpha 900');
+    const {
+      isAuthenticated,
+    } = useAuth0();
+   
     return (
-      <>
-        <Box bg={useColorModeValue('#ced5e5', '#1c2132')} px={4}>
-          <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-            <IconButton
+      
+    
+       <>
+        <Box bg={bg} px={4}>
+          
+          <Flex h={'auto'} alignItems={'center'} justifyContent={'space-between'} maxW={'100%'}>
+          <IconButton
+            
               size={'md'}
               icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
               aria-label={'Open Menu'}
@@ -66,48 +49,51 @@ import {
                 {subLink.map((link) => (
                   <Link as={Link} to='/Subscribe' key={link}>{link}</Link>
                 ))}
-                {tagLink.map((link) => (
-                  <Link as={Link} to='/Tags' key={link}>{link}</Link>
+                {searchLink.map((link) => (
+                  <Link as={Link} to='/Search' key={link}>{link}</Link>
                 ))}
-                {aboutLink.map((link) => (
-                  <Link as={Link} to='/About' key={link}>{link}</Link>
-                ))}
-                <HStack>
-                {username && (
-                  logoutLink.map((link) => (
-                    <Link as={Link} to='/Logout' onClick={logout} key={link}>{link}</Link>
-                  ))
+               {isAuthenticated && (
+                  <>
+                  <LogoutButton />
+                  <Link as={Link} to='/CreatePost'>Create</Link>
+                  <Link as={Link} to='/EditPost'>Edit</Link>
+                  </>
                 )}
-                </HStack>
-                {registerLink.map((link) => (
-                  <Link as={Link} to='/Register' key={link}>{link}</Link>
-                ))}
-                {loginLink.map((link) => (
-                  <Link as={Link} to='/Login' key={link}>{link}</Link>
-                ))}
+                {!isAuthenticated && (
+                  <LoginButton/>
+                )}
+                <Profile />
                 <ColorModeSwitcher/>
               </HStack>
             </HStack>
-          </Flex>
-  
+      
+          
           {isOpen ? (
-            <Box pb={4} display={{ md: 'none' }}>
-              <Stack as={'nav'} spacing={4}>
+            <Box h={10} display={{ md: 'none' }} align={'center'} marginBottom={'50px'}>
+              <Stack as={'nav'}>
                 {subLink.map((link) => (
                   <Link as={Link} to='/Subscribe' key={link}>{link}</Link>
                 ))}
-                {tagLink.map((link) => (
-                  <Link as={Link} to='/Tags' key={link}>{link}</Link>
+                {searchLink.map((link) => (
+                  <Link as={Link} to='/Search' key={link}>{link}</Link>
                 ))}
-                {aboutLink.map((link) => (
-                  <Link as={Link} to='/About' key={link}>{link}</Link>
-                ))}
+                 {isAuthenticated && (
+                  <>
+                  <LogoutButton />
+                  <Link as={Link} to='/CreatePost'>Create</Link>
+                  <Link as={Link} to='/EditPost'>Edit</Link>
+                  </>
+                )}
+                {!isAuthenticated && (
+                  <LoginButton/>
+                )}
+                <ColorModeSwitcher/>
               </Stack>
             </Box>
           ) : null}
+          </Flex>
         </Box>
-  
-    
       </>
     );
-  }
+                }
+  

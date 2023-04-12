@@ -1,7 +1,7 @@
-import { createContext } from "react";
+import * as React from "react";
 import { useState } from "react";
 
-export const UserContext = createContext({});
+export const UserContext = React.createContext();
 
 export function UserContextProvider({children}) {
     const {userInfo, setUserInfo} = useState({}); 
@@ -10,4 +10,13 @@ export function UserContextProvider({children}) {
             {children}
         </UserContext.Provider>
         )
+}
+
+export function useContext() {
+    const context = React.useContext(UserContext)
+
+    if (context === undefined) {
+        throw new console.error();
+    }
+    return context
 }

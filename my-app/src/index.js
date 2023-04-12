@@ -4,6 +4,8 @@ import * as ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorker from './serviceWorker';
+import { Auth0Provider } from "@auth0/auth0-react";
+
 
 
 const container = document.getElementById('root');
@@ -11,8 +13,18 @@ const root = ReactDOM.createRoot(container);
 
 root.render(
   <StrictMode>
+     
+      <Auth0Provider
+    domain="dev-1dftnrjnsyxgtuof.us.auth0.com"
+    clientId="u8AmlNhfDvHeVpb9xj9KXr2hFHp0fjdb"
+    authorizationParams={{
+      redirect_uri: window.location.origin
+    }}
+  >
     <ColorModeScript />
     <App />
+    </ Auth0Provider>
+
   </StrictMode>
 );
 

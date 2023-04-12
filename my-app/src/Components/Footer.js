@@ -9,12 +9,20 @@ import {
     useColorModeValue,
   } from '@chakra-ui/react';
   import { Link } from 'react-router-dom';
+  import { useAuth0 } from "@auth0/auth0-react";
+  import LoginButton from './LoginButton';
+  import LogoutButton from './LogoutButton';
+  
+
   
   export default function SmallWithNavigation() {
+    const {
+      isAuthenticated,
+    } = useAuth0();
     return (
       <Box 
         as={'footer'}
-        bg={useColorModeValue('#ced5e5', '#1c2132')}
+        bg={useColorModeValue('WhiteAlpha 900', 'BlackAlpha 900')}
         color={useColorModeValue('gray.700', 'gray.200')}>
         <Container
           as={Stack}
@@ -28,10 +36,16 @@ import {
             <Link as={Link} to={'/Subscribe'}>Subscribe</Link>
             <Link as={Link} to={'/Tags'}>Tags</Link>
             <Link as={Link} to={'/About'}>About</Link>
-            <Link as={Link} to={'/Login'}>Login</Link>
+            {isAuthenticated && (
+                  <LogoutButton/>
+                )}
+            {!isAuthenticated && (
+                  <LoginButton/>
+                )}
+         
           </Stack>
           <HStack>
-          <Text>Subscribe for new post updates!</Text>
+          <Text>Subscribe!</Text>
           <Input
               type={'email'}
               focusBorderColor='lime'
@@ -49,7 +63,7 @@ import {
                   bg={'blue.400'}
                   color={'white'}
                   _hover={{
-                    bg: 'blue.500',
+                    bg: 'red.500',
                   }}>
                   Submit
             </Button>

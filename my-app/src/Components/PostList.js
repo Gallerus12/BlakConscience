@@ -1,51 +1,70 @@
 /* eslint-disable */
 
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import Post from './Post';
-import { fetchPosts } from '../Redux/actions/post';
-import { useColorModeValue, Box, Wrap, Flex } from '@chakra-ui/react';
+import React from 'react';
+import { useState, useEffect } from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
+import { useColorModeValue, Text, Image, Link, Box, Stack, Avatar, Center, Heading, Card, VStack, Divider, Spacer, LinkOverlay, LinkBox, HStack } from '@chakra-ui/react';
+
+
+
+
 
 const PostsList = () => {
-  const listPost = useSelector(state => state.posts);
-  const { posts, loading, error } = listPost;
+  const [posts, setPosts] = useState([]);
+  const bg = useColorModeValue('#ced5e5', '#1c2132');
 
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchPosts());
-  }, [dispatch]);
+// This method fetches the posts from the database
+useEffect(() => {
+  async function getPosts() {
+    const response = await fetch(`http://localhost:4000/post/`);
+
+    if (!response.ok) {
+      const message = `An error occurred: ${response.statusText}`;
+      window.alert(message);
+      return;
+    }
+
+    const posts = await response.json();
+    setPosts(posts);
+  }
+
+  getPosts();
+
+  return;
+}, [posts.length]);
+
+//This method will delete a record
+async function deletePost(id) {
+  await fetch(`http://localhost:4000/${id}`, {
+    method: "DELETE"
+  });
+
+  const newPosts = posts.filter((el) => el._id !== id);
+  setPosts(newPosts);
+
+}
+
+//This will map out the posts on the table
+function postList() {
+  
+  return posts.map((post) => {
+    return (
+      <Post
+        post={post}
+        key={post._id}
+        />
+
+    )
+  });
+};
 
   return (
-    <Flex
-      bg={useColorModeValue('#F9FAFB', 'gray.600')}
-      px={5}
-      py={30}
-      w="full"
-      align="center"
-      justify="center"
-      minH="100vh"
-    >
-      <Wrap spacing="30px" justify="center">
-        {error && <p>{error}</p>}
-        {posts?.length > 0 ? (
-          posts?.map(post => (
-            <Box
-              mx="auto"
-              rounded="lg"
-              shadow="md"
-              bg={('white', 'gray.800')}
-              maxW="md"
-              key={post?._id}
-              boxShadow="dark-lg"
-            >
-              <Post post={post} />
-            </Box>
-          ))
-        ) : (
-          'Blog not found!'
-        )}
-      </Wrap>
-    </Flex>
+    <Box position={'relative'} marginBottom={'-300px'}>
+      <HStack>
+      {postList()}
+      </HStack>
+    </Box>
+     
   );
 };
 
