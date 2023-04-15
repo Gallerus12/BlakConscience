@@ -2,7 +2,7 @@
   "name": "my-app",
   "version": "0.1.0",
    "engines": {
-    "node": "16.3.1"
+    "node": "16.3.x"
   },
   "private": true,
   "dependencies": {
