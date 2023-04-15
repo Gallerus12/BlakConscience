@@ -1,4 +1,5 @@
 const express = require('express');
+require('dotenv').config({path: './../.env'})
 const cors = require('cors');
 const mongoose = require("mongoose");
 const Post = require('./Models/PostSchema');
@@ -18,7 +19,14 @@ app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 
-mongoose.connect('mongodb+srv://admin:Deathsword11@cluster0.pnbp6il.mongodb.net/?retryWrites=true&w=majority');
+mongoose.connect(process.env.MONGO_URI, {
+  useUnifiedTopology: true,
+  useNewURLParser: true
+  }
+).then(() => console.log('DB Connection Successfull'))
+ .catch((err) => {
+    console.error(err);
+});;
 
 
 
@@ -116,4 +124,4 @@ app.get('/post/:author', async (req, res) => {
   
   });
 
-app.listen(4000);
+app.listen(process.env.REACT_APP_PORT);
