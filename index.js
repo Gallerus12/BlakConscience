@@ -18,7 +18,7 @@ app.use(express.json());
 app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'client', 'build')));
+
 
 mongoose.connect(process.env.MONGO_URI, {
   useUnifiedTopology: true,
