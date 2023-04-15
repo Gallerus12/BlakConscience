@@ -124,5 +124,5 @@ app.get('/post/:author', async (req, res) => {
   };
   
   });
-
+app.listen(process.env.PORT || 4000)
 
