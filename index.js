@@ -2,7 +2,7 @@ const express = require('express');
 require('dotenv').config({path: './../.env'})
 const cors = require('cors');
 const mongoose = require("mongoose");
-const Post = require('./Models/PostSchema');
+const Post = require('./PostSchema');
 const app = express();
 const multer = require('multer'); 
 const uploadMiddleware = multer({ dest: 'uploads/' });
