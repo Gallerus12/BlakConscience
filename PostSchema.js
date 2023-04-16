@@ -5,7 +5,8 @@ const PostSchema = new Schema({
   title:String,
   summary:String,
   content:String,
-  cover:String,
+  image_id:String,
+  image:String,
   author:String,
   tag: String,
 }, {
