@@ -77,7 +77,7 @@ app.put('/post',uploadMiddleware.single('file'), async (req,res) => {
   try {
     const {id,title,summary,content,author,tag} = req.body;
     const postDoc = await Post.findById(id);
-    await cloudinary.uploader.destroy(public_id)
+    await cloudinary.uploader.destroy(postDoc.image_id)
 
     const result = await cloudinary.uploader.upload(req.file.path);
     if (!id) {
