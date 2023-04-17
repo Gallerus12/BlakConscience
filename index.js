@@ -87,8 +87,8 @@ app.put('/post',uploadMiddleware.single('file'), async (req,res) => {
       title,
       summary,
       author,
-      image: result.secure_url || result.image,
-      image_id: result.public_id || result.image_id,
+      image: result.image || postDoc.image,
+      image_id: result.image_id || postDoc.image_id,
       content,
       tag,
     });
