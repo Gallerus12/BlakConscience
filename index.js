@@ -59,7 +59,7 @@ app.post('/post', uploadMiddleware.single('file'), async (req,res) => {
   });
 
        cloudinary.image(`${image}`,{transformation: [
-      {fetch_format: "auto"}
+      {fetch_format: "f_auto"}
       ]})
   const {title,summary,content, author, tag} = req.body;
   const postDoc = await Post.create({
@@ -90,7 +90,7 @@ app.put('/post',uploadMiddleware.single('file'), async (req,res) => {
       resource_type: "auto",
     });
         cloudinary.image(`${image}`,{transformation: [
-      {fetch_format: "auto"}
+      {fetch_format: "f_auto"}
       ]})
     if (!id) {
       return res.status(400).json('you are not the author');
