@@ -44,7 +44,9 @@ cloudinary.config({
 
 //}
 
-
+cloudinary.image({transformation: [
+  {fetch_format: "auto"}
+  ]})
 
 app.post('/post', uploadMiddleware.single('file'), async (req,res) => {
  try {
