@@ -52,7 +52,9 @@ app.post('/post', uploadMiddleware.single('file'), async (req,res) => {
   //let dataURI = "data:" + req.file.mimetype + ";base64," + base64;
   //const cldRes = handleUpload(dataURI);
  
-  const result = await cloudinary.uploader.upload(req.file.path)
+  const result = await cloudinary.uploader.upload(req.file.path, {
+    resource_type: "auto",
+  });
 
   const {title,summary,content, author, tag} = req.body;
   const postDoc = await Post.create({
@@ -79,7 +81,9 @@ app.put('/post',uploadMiddleware.single('file'), async (req,res) => {
     const postDoc = await Post.findById(id);
     await cloudinary.uploader.destroy(postDoc.image_id)
 
-    const result = await cloudinary.uploader.upload(req.file.path);
+    const result = await cloudinary.uploader.upload(req.file.path, {
+      resource_type: "auto",
+    });
     if (!id) {
       return res.status(400).json('you are not the author');
     }
