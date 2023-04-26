@@ -56,6 +56,11 @@ app.post('/post', uploadMiddleware.single('file'), async (req,res) => {
  
   const result = await cloudinary.uploader.upload(req.file.path, {
     resource_type: "auto",
+    eager: [
+        { fetch_format: "avif", format: "" },
+        { fetch_format: "jp2", format: "" },
+        { fetch_format: "webp", flags: "awebp", format: "" }
+      ]  
   });
 
   const {title,summary,content, author, tag} = req.body;
@@ -85,6 +90,11 @@ app.put('/post',uploadMiddleware.single('file'), async (req,res) => {
 
     const result = await cloudinary.uploader.upload(req.file.path, {
       resource_type: "auto",
+      eager: [
+        { fetch_format: "avif", format: "" },
+        { fetch_format: "jp2", format: "" },
+        { fetch_format: "webp", flags: "awebp", format: "" }
+      ]  
     });
 
     if (!id) {
