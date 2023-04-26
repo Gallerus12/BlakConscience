@@ -120,7 +120,7 @@ app.get('/post/:id', async (req, res) => {
 try {
   const {id} = req.params;
   const postDoc = await Post.findById(id);
-    cloudinary.image(`${image}`,{transformation: [
+    cloudinary.image(`${postDoc.image}`,{transformation: [
     {fetch_format: "auto"}
     ]})
   res.json(postDoc);
