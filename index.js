@@ -123,7 +123,7 @@ try {
     cloudinary.image(`${postDoc.image}`,{transformation: [
     {fetch_format: "auto"}
     ]})
-  res.json(postDoc);
+  res.json(postDoc, image);
 } catch (error) {
   return console.error(error);
   
