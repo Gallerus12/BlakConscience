@@ -59,7 +59,10 @@ app.post('/post', uploadMiddleware.single('file'), async (req,res) => {
     eager: [
         { fetch_format: "avif", format: "" },
         { fetch_format: "jp2", format: "" },
-        { fetch_format: "webp", flags: "awebp", format: "" }
+        { fetch_format: "webp", flags: "awebp", format: "" },
+        { fetch_format: "webp", format: "" },
+        { fetch_format: "f_auto", format: "" },
+        { fetch_format: "wdp", format: "" },
       ]  
   });
 
@@ -93,7 +96,10 @@ app.put('/post',uploadMiddleware.single('file'), async (req,res) => {
       eager: [
         { fetch_format: "avif", format: "" },
         { fetch_format: "jp2", format: "" },
-        { fetch_format: "webp", flags: "awebp", format: "" }
+        { fetch_format: "webp", flags: "awebp", format: "" },
+        { fetch_format: "webp", format: "" },
+        { fetch_format: "f_auto", format: "" },
+        { fetch_format: "wdp", format: "" },
       ]  
     });
 
@@ -131,7 +137,7 @@ try {
   const {id} = req.params;
   const postDoc = await Post.findById(id);
   cloudinary.image(`${postDoc.image_id}`,{transformation: [
-    {fetch_format: "auto"}
+    {fetch_format: "f_auto"}
     ]})
   res.json(postDoc);
 } catch (error) {
